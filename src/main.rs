@@ -37,6 +37,7 @@ async fn main() -> Result<()> {
     let _ = config_file.read_to_string(&mut config_str).unwrap();
     let config = ron::de::from_str::<Project>(&config_str).unwrap();
 
+    println!("Bot initialized for project: {}", config.title);
     info!("Configuration: {:?}", config);
     CONFIG.get_or_init(|| ron::de::from_str::<Project>(&config_str).unwrap());
     // info!("Issue labels: {:?}", env_vars.issue_labels);
