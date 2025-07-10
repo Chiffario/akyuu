@@ -1,0 +1,24 @@
+Project(
+    title: "irai",
+
+    discord_config: DiscordConfig(
+        token: "",
+        guild_id: 123,
+        operator_id: 123,
+    ),
+
+    github_config: GithubConfig(
+        token: "",
+        owner: "osu-irai",        
+        repositories: {
+            "Frontend": "frontend",
+            "Backend": "backend"
+            "Issue tracker": "issue-bot"
+        },
+    ),
+
+    issue_labels: IssueLabels(
+        issue_types: ["Bug", "Suggestion", "Refactor"],
+        issue_priority: ["P0", "P1", "P2", "P3", "Backlog"],
+    ),
+)
