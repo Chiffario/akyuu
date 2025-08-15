@@ -18,7 +18,7 @@ pub struct Project {
 pub struct DiscordConfig {
     pub token: String,
     pub guild_id: u64,
-    pub operator_id: u64,
+    pub operator_id: Vec<u64>,
 }
 
 impl DiscordConfig {
@@ -26,8 +26,8 @@ impl DiscordConfig {
         Id::new(self.guild_id)
     }
 
-    pub fn operator_id_as_marker(&self) -> Id<UserMarker> {
-        Id::new(self.operator_id)
+    pub fn operator_id_as_marker(&self) -> Vec<Id<UserMarker>> {
+        self.operator_id.iter().map(|id| Id::new(*id)).collect()
     }
 }
 

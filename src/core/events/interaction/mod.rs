@@ -40,7 +40,12 @@ pub async fn handle_interaction(ctx: Arc<Context>, interaction: Interaction) {
             return;
         };
 
-        if !(&ctx.config.discord_config.operator_id_as_marker() == &user.id) {
+        if !(&ctx
+            .config
+            .discord_config
+            .operator_id_as_marker()
+            .contains(&user.id))
+        {
             let name = &user.name;
             info!("User `{name}` attempted to use interaction but is not listed as operator");
 
