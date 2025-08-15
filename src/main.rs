@@ -7,9 +7,11 @@ extern crate tracing;
 use std::{
     fs::File,
     io::Read,
+    path::PathBuf,
     sync::{Arc, LazyLock, OnceLock},
 };
 
+use clap::{parser::Values, Arg, Command};
 use eyre::{Result, WrapErr};
 use octocrab::OctocrabBuilder;
 use tokio::signal;
@@ -29,10 +31,19 @@ static CONFIG: OnceLock<Project> = OnceLock::new();
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    let command = Command::new("issue-bot").arg(
+        Arg::new("config")
+            .long("configuration")
+            .short('c')
+            .help("Configuration file"),
+    );
+    let matches = command.get_matches();
+    let path = matches.get_one::<String>("config").unwrap();
+    let path = PathBuf::from(path);
     let _log_worker_guard = logging::initialize();
 
     // let env_vars = EnvVars::read()?;
-    let mut config_file = File::open("./configuration.ron").unwrap();
+    let mut config_file = File::open(path).unwrap();
     let mut config_str = String::new();
     let _ = config_file.read_to_string(&mut config_str).unwrap();
     let config = ron::de::from_str::<Project>(&config_str).unwrap();

@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 bitflags = { version = "1.0" }
+clap = { version = "4.5.45", default-features = false, features = ["help", "std"]}
 command-macros = { path = "./command-macros" }
 dotenvy = { version = "0.15" }
 enum_dispatch = { version = "0.3.11" }
