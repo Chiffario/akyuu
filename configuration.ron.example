@@ -4,7 +4,7 @@ Project(
     discord_config: DiscordConfig(
         token: "",
         guild_id: 123,
-        operator_id: 123,
+        operator_id: [123, 456],
     ),
 
     github_config: GithubConfig(
