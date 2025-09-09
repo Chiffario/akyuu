@@ -12,7 +12,7 @@ use std::{
 };
 
 use clap::{parser::Values, Arg, Command};
-use eyre::{Result, WrapErr};
+use eyre::{ContextCompat, Result, WrapErr};
 use octocrab::OctocrabBuilder;
 use tokio::signal;
 use twilight_gateway::CloseFrame;
@@ -38,15 +38,17 @@ async fn main() -> Result<()> {
             .help("Configuration file"),
     );
     let matches = command.get_matches();
-    let path = matches.get_one::<String>("config").unwrap();
+    let path = matches
+        .get_one::<String>("config")
+        .wrap_err("Failed to get a match for --configuration")?;
     let path = PathBuf::from(path);
     let _log_worker_guard = logging::initialize();
 
     // let env_vars = EnvVars::read()?;
-    let mut config_file = File::open(path).unwrap();
+    let mut config_file = File::open(path)?;
     let mut config_str = String::new();
-    let _ = config_file.read_to_string(&mut config_str).unwrap();
-    let config = ron::de::from_str::<Project>(&config_str).unwrap();
+    let _ = config_file.read_to_string(&mut config_str)?;
+    let config = ron::de::from_str::<Project>(&config_str)?;
 
     println!("Bot initialized for project: {}", config.title);
     info!("Configuration: {:?}", config);
