@@ -11,4 +11,4 @@ FROM alpine:3.22 AS app
 
 COPY --from=builder /usr/local/cargo/bin/issue-bot /usr/local/bin/issue-bot
 
-CMD ["issue-bot"]
+CMD ["issue-bot", "-c", "/etc/issue-bot/configuration.ron"]
