@@ -40,9 +40,6 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v6
-        permissions:
-          contents: read
-          packages: write
         with:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
