@@ -10,12 +10,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/osu-irai/issue-bot
+          images: ghcr.io/Chiffario/akyuu
           tags: |
             type=schedule
             type=ref,event=branch
