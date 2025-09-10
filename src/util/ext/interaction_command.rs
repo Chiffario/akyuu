@@ -134,21 +134,15 @@ impl InteractionCommandExt for InteractionCommand {
         let mut req = client.update_response(&self.token);
 
         if let Some(ref content) = builder.content {
-            req = req
-                .content(Some(content.as_ref()))
-                .expect("invalid content");
+            req = req.content(Some(content.as_ref()));
         }
 
         if let Some(ref embed) = builder.embed {
-            req = req
-                .embeds(Some(slice::from_ref(embed)))
-                .expect("invalid embed");
+            req = req.embeds(Some(slice::from_ref(embed)));
         }
 
         if let Some(ref components) = builder.components {
-            req = req
-                .components(Some(components))
-                .expect("invalid components");
+            req = req.components(Some(components));
         }
 
         if let Some(attachment) = builder.attachment.as_ref().filter(|_| {
@@ -156,7 +150,7 @@ impl InteractionCommandExt for InteractionCommand {
                 permissions.contains(Permissions::ATTACH_FILES)
             })
         }) {
-            req = req.attachments(slice::from_ref(attachment)).unwrap();
+            req = req.attachments(slice::from_ref(attachment));
         }
 
         req.into_future()
@@ -169,7 +163,6 @@ impl InteractionCommandExt for InteractionCommand {
         ctx.interaction()
             .update_response(&self.token)
             .embeds(Some(&[embed]))
-            .expect("invalid embed")
             .into_future()
     }
 

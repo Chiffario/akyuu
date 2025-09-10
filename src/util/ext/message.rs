@@ -42,21 +42,15 @@ impl MessageExt for (Id<MessageMarker>, Id<ChannelMarker>) {
         let mut req = ctx.http.update_message(self.1, self.0);
 
         if let Some(ref content) = builder.content {
-            req = req
-                .content(Some(content.as_ref()))
-                .expect("invalid content");
+            req = req.content(Some(content.as_ref()));
         }
 
         if let Some(ref embed) = builder.embed {
-            req = req
-                .embeds(Some(slice::from_ref(embed)))
-                .expect("invalid embed");
+            req = req.embeds(Some(slice::from_ref(embed)));
         }
 
         if let Some(ref components) = builder.components {
-            req = req
-                .components(Some(components))
-                .expect("invalid components");
+            req = req.components(Some(components));
         }
 
         Some(req.into_future())

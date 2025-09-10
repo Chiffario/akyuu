@@ -37,6 +37,8 @@ fn create_command() -> Command {
         nsfw: None,
         options: Vec::new(),
         version: Id::new(1),
+        contexts: None,
+        integration_types: None,
     }
 }
 

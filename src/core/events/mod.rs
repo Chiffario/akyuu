@@ -1,7 +1,11 @@
 use std::sync::Arc;
 
 use eyre::Result;
-use twilight_gateway::{Event, Shard};
+use tracing::instrument::WithSubscriber;
+use twilight_gateway::{
+    error::{ReceiveMessageError, ReceiveMessageErrorType},
+    Event, EventTypeFlags, Shard, StreamExt,
+};
 
 use self::interaction::handle_interaction;
 
@@ -10,18 +14,20 @@ use super::Context;
 mod interaction;
 
 pub async fn event_loop(ctx: Arc<Context>, shard: &mut Shard) {
+    let flags = EventTypeFlags::GATEWAY_INVALIDATE_SESSION
+        | EventTypeFlags::GATEWAY_RECONNECT
+        | EventTypeFlags::INTERACTION_CREATE
+        | EventTypeFlags::READY
+        | EventTypeFlags::RESUMED;
+
     loop {
-        let event = match shard.next_event().await {
-            Ok(event) => event,
-            Err(err) => {
-                warn!(?err, "Error receiving event");
-
-                if err.is_fatal() {
-                    break;
-                }
-
+        let event = match shard.next_event(flags).await {
+            Some(Ok(event)) => event,
+            Some(Err(err)) => {
+                warn!(?err, "Error: ");
                 continue;
             }
+            _ => continue,
         };
 
         let ctx = Arc::clone(&ctx);

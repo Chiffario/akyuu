@@ -13,6 +13,7 @@ use std::{
 
 use clap::{parser::Values, Arg, Command};
 use eyre::{ContextCompat, Result, WrapErr};
+use futures::StreamExt;
 use octocrab::OctocrabBuilder;
 use tokio::signal;
 use twilight_gateway::CloseFrame;
@@ -109,8 +110,8 @@ async fn main() -> Result<()> {
             info!("Received Ctrl+C");
         },
     }
-
-    if let Err(err) = shard.close(CloseFrame::NORMAL).await {
+    shard.close(CloseFrame::NORMAL);
+    if let Some(Err(err)) = shard.next().await {
         warn!(?err, "Failed to close shard gracefully");
     }
 

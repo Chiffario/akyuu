@@ -9,7 +9,9 @@ use octocrab::models::issues::Issue;
 use twilight_model::{
     channel::{
         message::{
-            component::{ActionRow, Button, ButtonStyle, SelectMenu, SelectMenuOption},
+            component::{
+                ActionRow, Button, ButtonStyle, SelectMenu, SelectMenuOption, SelectMenuType,
+            },
             embed::EmbedField,
             Component,
         },
@@ -211,6 +213,7 @@ impl IActiveMessage for CreateIssue {
             label: Some("Issue title".to_owned()),
             style: ButtonStyle::Primary,
             url: None,
+            sku_id: None,
         };
 
         let author = Button {
@@ -220,6 +223,7 @@ impl IActiveMessage for CreateIssue {
             label: Some("Author".to_owned()),
             style: ButtonStyle::Secondary,
             url: None,
+            sku_id: None,
         };
 
         let create = Button {
@@ -229,6 +233,7 @@ impl IActiveMessage for CreateIssue {
             label: Some("Create".to_owned()),
             style: ButtonStyle::Success,
             url: None,
+            sku_id: None,
         };
 
         let button_row = ActionRow {
@@ -260,8 +265,11 @@ impl IActiveMessage for CreateIssue {
             disabled: false,
             max_values: Some(1),
             min_values: Some(1),
-            options: repository_options,
+            options: Some(repository_options),
             placeholder: Some("Select one repository".to_owned()),
+            channel_types: None,
+            default_values: None,
+            kind: SelectMenuType::Text,
         };
 
         let label_options: Vec<_> = CONFIG
@@ -285,8 +293,11 @@ impl IActiveMessage for CreateIssue {
             disabled: false,
             max_values: Some(label_options.len() as u8),
             min_values: Some(1),
-            options: label_options,
+            options: Some(label_options),
             placeholder: Some("Select at least one label".to_owned()),
+            channel_types: None,
+            default_values: None,
+            kind: SelectMenuType::Text,
         };
 
         let labels_row = ActionRow {

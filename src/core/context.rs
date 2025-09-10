@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use octocrab::Octocrab;
-use twilight_gateway::{Config, EventTypeFlags, Intents, Shard, ShardId};
+use twilight_gateway::{Config, ConfigBuilder, EventTypeFlags, Intents, Shard, ShardId};
 use twilight_http::{client::InteractionClient, Client};
 use twilight_model::{
     gateway::{
@@ -28,13 +28,7 @@ impl Context {
     }
 
     pub fn create_shard(token: String, activity: Option<String>) -> Shard {
-        let flags = EventTypeFlags::GATEWAY_INVALIDATE_SESSION
-            | EventTypeFlags::GATEWAY_RECONNECT
-            | EventTypeFlags::INTERACTION_CREATE
-            | EventTypeFlags::READY
-            | EventTypeFlags::RESUMED;
-
-        let mut shard_config = Config::builder(token, Intents::empty()).event_types(flags);
+        let mut shard_config = ConfigBuilder::new(token, Intents::empty());
 
         if let Some(activity) = activity {
             let activity = MinimalActivity {

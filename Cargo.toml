@@ -13,7 +13,7 @@ eyre = { version = "0.6" }
 flexmap = { git = "https://github.com/MaxOhn/flexmap" }
 futures = { version = "0.3", default-features = false }
 lazy_static = { version = "1.0" }
-octocrab = { version = "0.19", default-features = false, features = ["rustls"] } # v0.20 requires openssl so we avoid it
+octocrab = { version = "0.35", default-features = false, features = ["rustls"] } # v0.20 requires openssl so we avoid it
 radix_trie = { version = "0.2" }
 ron = "0.10.1"
 serde = { version = "1.0", features = ["derive"] }
@@ -23,10 +23,10 @@ tokio = { version = "1.0", default-features = false, features = ["fs", "io-util"
 tracing = { version = "0.1" }
 tracing-appender = { version = "0.2" }
 tracing-subscriber = { version = "0.3", default-features = false, features = ["env-filter", "fmt", "smallvec", "std", "time", "tracing-log"] }
-twilight-gateway = { version = "0.15" }
-twilight-http = { version = "0.15", default-features = false, features = ["rustls-webpki-roots"] }
-twilight-interactions = { version = "0.15", default-features = false, features = ["derive"] }
-twilight-model = { version = "0.15", default-features = false }
+twilight-gateway = { version = "0.16" }
+twilight-http = { version = "0.16", default-features = false, features = ["rustls-webpki-roots", "rustls-ring"] }
+twilight-interactions = { version = "0.16", default-features = false, features = ["derive"] }
+twilight-model = { version = "0.16", default-features = false }
 
 [profile.release]
 lto = "thin"

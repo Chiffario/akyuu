@@ -63,15 +63,15 @@ impl InteractionCommands {
     ) -> Result<()> {
         let mut builder = client
             .create_guild_command(guild)
-            .chat_input(&cmd.name, &cmd.description)?
-            .command_options(&cmd.options)?;
+            .chat_input(&cmd.name, &cmd.description)
+            .command_options(&cmd.options);
 
         if let Some(ref localizations) = cmd.name_localizations {
-            builder = builder.name_localizations(localizations)?;
+            builder = builder.name_localizations(localizations);
         }
 
         if let Some(ref localizations) = cmd.description_localizations {
-            builder = builder.description_localizations(localizations)?;
+            builder = builder.description_localizations(localizations);
         }
 
         if let Some(default) = cmd.default_member_permissions {
@@ -92,10 +92,10 @@ impl InteractionCommands {
         client: &InteractionClient<'_>,
         guild: Id<GuildMarker>,
     ) -> Result<()> {
-        let mut builder = client.create_guild_command(guild).message(&cmd.name)?;
+        let mut builder = client.create_guild_command(guild).message(&cmd.name);
 
         if let Some(ref localizations) = cmd.name_localizations {
-            builder = builder.name_localizations(localizations)?;
+            builder = builder.name_localizations(localizations);
         }
 
         if let Some(default) = cmd.default_member_permissions {
